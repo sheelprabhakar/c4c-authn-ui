@@ -31,15 +31,28 @@ export class AuthService {
     );
   }
 
-  logout(): Observable<any> {
+  public logout(): void {//Observable<any> {
     this.tokenService.removeToken();
-    return this.http.post(`${this.apiUrl}/logout`, {});
+    //return this.http.post(`${this.apiUrl}/logout`, {});
   }
 
   public get loggedIn(): boolean {
     const token = this.tokenService.getToken();
     return (
       token !== null && !this.tokenService.isTokenExpired(token.accessToken)
+    );
+  }
+
+  refreshToken(refreshToken: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/refreshToken?refreshToken=${refreshToken}`,{}).pipe(
+      tap((response) => {
+        const loginResponse = new LoginResponseModel(
+          response.accessToken,
+          response.refreshToken,
+          response.tenantId
+        );
+        this.tokenService.setToken(loginResponse);
+      })
     );
   }
 }

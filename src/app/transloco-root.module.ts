@@ -10,6 +10,7 @@ import {
 import { Injectable, NgModule } from '@angular/core';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
+import { TenantComponent } from './pages/tenant/tenant.component';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
