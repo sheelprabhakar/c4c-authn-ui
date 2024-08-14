@@ -1,0 +1,7 @@
+.table-container {
+  display: flexbox;
+  overflow: auto; /* Add scroll if content overflows */
+}
+.mat-elevation-z8 {
+  max-height: 100%; /* Ensure the table takes the full height of the container */
+}

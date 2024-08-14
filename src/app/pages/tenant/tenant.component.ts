@@ -1,25 +1,62 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
-import { TenantDataService } from 'src/app/core/tenant.data.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { SelectionModel } from '@angular/cdk/collections';
+import { TenantDataService } from 'src/app/core/tenant/tenant.data.service';
+import { environment as env } from 'src/environments/environment';
+import { TenantData } from 'src/app/core/tenant/tenant.data.model';
+import { TableHeightDirective } from '../../shared/directives/table-height-directive'
 @Component({
   selector: 'app-tenant',
   templateUrl: './tenant.component.html',
-  styleUrl: './tenant.component.css',
+  styleUrl: './tenant.component.scss',
   standalone: true,
-  imports:[MatTableModule, MatPaginatorModule, MatSortModule]
+  imports: [
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatCheckboxModule,
+    TableHeightDirective
+  ],
 })
-export class TenantComponent implements AfterViewInit  {
-  displayedColumns: string[] = ['id', 'name', 'age', 'address'];
+export class TenantComponent implements OnInit {
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'email',
+    'address',
+    'cityId',
+    'pin',
+    'phone',
+    'mobile',
+    'shortName',
+    'updatedAt',
+    'active',
+  ];
+  selection = new SelectionModel<TenantData>(true, []);
   dataSource = new MatTableDataSource<any>([]);
   totalItems = 0;
+  pageSize = env.pageSize;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private dataService: TenantDataService) {}
-  ngAfterViewInit() {
+  constructor(
+    private dataService: TenantDataService,
+    private el: ElementRef,
+    private renderer: Renderer2
+  ) {}
+  ngOnInit() {
     this.dataSource.paginator = this.paginator;
     this.paginator.page.subscribe(() => this.loadPage());
     this.loadPage();
@@ -29,9 +66,25 @@ export class TenantComponent implements AfterViewInit  {
     const pageIndex = this.paginator.pageIndex;
     const pageSize = this.paginator.pageSize;
 
-    this.dataService.getData(pageIndex, pageSize).subscribe(data => {
-      this.dataSource.data = data.items;
-      this.totalItems = data.total;
-    });
+    this.dataService
+      .getData<TenantData>(pageIndex, pageSize)
+      .subscribe((data) => {
+        this.dataSource.data = data.items;
+        this.dataSource.sort = this.sort;
+        this.totalItems = data.total;
+      });
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
 }
