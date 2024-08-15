@@ -13,3 +13,17 @@ body {
 a {
   text-decoration: none;
 }
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+
+}
+.mat-elevation-z8 {
+  max-height: 100%; /* Ensure the table takes the full height of the container */
+  overflow: auto; /* Add scroll if content overflows */
+}
+.active-link .mdc-list-item__primary-text {
+  color: #673ab7 !important;
+  font-weight: 500;
+}

@@ -15,7 +15,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { TenantDataService } from 'src/app/core/tenant/tenant.data.service';
 import { environment as env } from 'src/environments/environment';
 import { TenantData } from 'src/app/core/tenant/tenant.data.model';
-import { TableHeightDirective } from '../../shared/directives/table-height-directive'
+import { TableHeightDirective } from '../../shared/directives/table-height-directive';
+import { MatDividerModule } from '@angular/material/divider';
 @Component({
   selector: 'app-tenant',
   templateUrl: './tenant.component.html',
@@ -26,7 +27,8 @@ import { TableHeightDirective } from '../../shared/directives/table-height-direc
     MatPaginatorModule,
     MatSortModule,
     MatCheckboxModule,
-    TableHeightDirective
+    MatDividerModule,
+    TableHeightDirective,
   ],
 })
 export class TenantComponent implements OnInit {
@@ -69,6 +71,12 @@ export class TenantComponent implements OnInit {
     this.dataService
       .getData<TenantData>(pageIndex, pageSize)
       .subscribe((data) => {
+        const row =data.items[0];
+        for(let i=0; i < 15; ++i){
+          let obj2 = JSON.parse(JSON.stringify(row));
+          data.items.push(obj2);
+        }
+        data.total=16;
         this.dataSource.data = data.items;
         this.dataSource.sort = this.sort;
         this.totalItems = data.total;

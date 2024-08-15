@@ -3,6 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
@@ -18,6 +19,7 @@ import { Router, RouterModule } from '@angular/router';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatCheckboxModule,
     RouterModule,
   ],
 })
@@ -28,7 +30,7 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   onLogin() {
     this.authService.login(this.username, this.password).subscribe({

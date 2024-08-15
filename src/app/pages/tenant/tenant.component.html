@@ -1,9 +1,9 @@
-<p>tenant works!</p>
-<div class="table-container" tableHeight [minHeight]="200">
+<h2>Tenant Management</h2>
+<mat-divider color="primary"></mat-divider>
+<div class="table-container mat-elevation-z8" tableHeight [minHeight]="200">
   <table
     mat-table
     [dataSource]="dataSource"
-    class="mat-elevation-z8 w-full"
     matSort
   >
     <ng-container matColumnDef="id">
