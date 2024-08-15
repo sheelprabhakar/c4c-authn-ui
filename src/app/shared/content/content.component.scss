@@ -1,4 +1,10 @@
 :host {
   display: block;
   padding: 16px;
+  height: 100%;
 }
+.content-c4c{
+  padding: 16px;
+  height: calc(100% - 16px);
+}
+

@@ -28,18 +28,16 @@
 
 ## Deploy
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 ## Demo
 
-[![StackBlitz Demo](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/wlucha/angular-starter)
 
 ## Install / Development
 
 ```bash
 # Clone the project
-$ git clone https://github.com/wlucha/angular-starter
-$ cd angular-starter
+$ git clone https://github.com/sheelprabhakar/c4c-authn-ui.git
+$ cd c4c-authn-ui
 
 # Install dependencies
 $ npm install
